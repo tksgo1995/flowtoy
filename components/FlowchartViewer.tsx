@@ -16,7 +16,7 @@ export const FlowchartViewer: React.FC<FlowchartViewerProps> = ({ code }) => {
       theme: 'default',
       securityLevel: 'loose',
         flowchart: {
-            curve: 'stepAfter',
+            curve: 'basis',
         },
     });
 
