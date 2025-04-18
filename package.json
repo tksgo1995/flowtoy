@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:debug":"set NODE_OPTIONS='--inspect' next dev"
   },
   "dependencies": {
     "mermaid": "^11.6.0",

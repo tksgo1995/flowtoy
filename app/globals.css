@@ -1,26 +1,226 @@
-@import "tailwindcss";
-
+/* app/globals.css */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --max-width: 1200px;
+  --border-radius: 8px;
+  --font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  
+  /* 색상 변수 */
+  --primary-color: #4caf50;
+  --primary-hover: #45a049;
+  --disabled-color: #cccccc;
+  --tab-active-color: #3f51b5;
+  --background-color: #f9f9f9;
+  --border-color: #ddd;
+  --text-color: #333;
+  --text-light: #666;
+  --text-lighter: #888;
+  
+  /* 메시지 색상 */
+  --user-message-bg: #e3f2fd;
+  --assistant-message-bg: #f1f1f1;
+  --system-message-bg: #fff3cd;
+  --system-message-color: #856404;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ededed;
-    --foreground: #0a0a0a;
-  }
-}
-
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: var(--font-family);
+  background-color: #fafafa;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 컨테이너 */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+/* 채팅 컨테이너 */
+.chatContainer {
+  width: 100%;
+  max-width: 1024px;
+  background-color: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+/* 입력 폼 */
+.inputForm {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.textarea {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  resize: vertical;
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-family: inherit;
+  min-height: 120px;
+}
+
+.submitButton {
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+  background-color: var(--primary-hover);
+}
+
+.submitButton:disabled {
+  background-color: var(--disabled-color);
+  cursor: not-allowed;
+}
+
+/* 탭 컨테이너 */
+.tabContainer {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tabButton {
+  padding: 10px 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+  color: var(--text-light);
+  flex: 1;
+  text-align: center;
+}
+
+.tabButton.activeTab {
+  color: var(--tab-active-color);
+  font-weight: bold;
+  border-bottom: 2px solid var(--tab-active-color);
+}
+
+/* 결과 컨테이너 */
+.resultContainer {
+  width: 100%;
+  min-height: 400px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 20px;
+  background-color: var(--background-color);
+}
+
+/* 플레이스홀더 이미지 */
+.placeholderImage {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.noResultText {
+  text-align: center;
+  color: var(--text-lighter);
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+/* 채팅 기록 */
+.chatHistory {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.chatMessage {
+  padding: 15px;
+  border-radius: 8px;
+  max-width: 80%;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.userMessage {
+  align-self: flex-end;
+  background-color: var(--user-message-bg);
+  border-bottom-right-radius: 0;
+}
+
+.aiMessage {
+  align-self: flex-start;
+  background-color: var(--assistant-message-bg);
+  border-bottom-left-radius: 0;
+}
+
+/* 시스템 메시지 특별 스타일 */
+.chatMessage[class*="system"] {
+  align-self: center;
+  background-color: var(--system-message-bg);
+  color: var(--system-message-color);
+  max-width: 90%;
+  border-radius: 4px;
+  font-style: italic;
+}
+
+.loadingIndicator {
+  align-self: center;
+  padding: 10px;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .chatContainer {
+    padding: 15px;
+  }
+  
+  .chatMessage {
+    max-width: 90%;
+  }
 }
