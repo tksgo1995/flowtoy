@@ -1,5 +1,5 @@
+import { ChatMessage } from "@/models/chat";
 import chatService, { TokenInfo } from "@/services/ChatService";
-import { ChatMessage } from "@/types";
 import { useState } from "react";
 
 interface UseChatReturn{

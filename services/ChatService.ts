@@ -59,7 +59,7 @@ export class ChatService{
         }
     }
 
-    async chat(userMessage: string): Promise<string>{
+    async chat(userMessage: string, assistantMessage: string): Promise<string>{
         try{
             const response = await this.sendMessage(userMessage);
             return response.responseData.userMessage;

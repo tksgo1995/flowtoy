@@ -1,40 +1,43 @@
 'use client';
 
-import { ChatInputProps } from "@/types";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { useState } from "react";
 
-export default function ChatInput({onSendMessage, isLoading}:ChatInputProps){
-    const [message, setMessage] = useState<string>("");
+interface ChatInputProps {
+    onSendMessage: (message: string) => Promise<void>;
+    isLoading: boolean;
+}
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
+    const [message, setMessage] = useState<string>('');
+    
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!message.trim() || isLoading) return;
+        
+        try{
+            await onSendMessage(message);
+            setMessage('');
+        } catch(error) {
+            console.error('Error sending message:', error);
+        }
 
-        if(message.trim() === "") return;
-
-        onSendMessage(message);
-        setMessage("");
+        await onSendMessage(message);
+        setMessage('');
     }
 
-    const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setMessage(e.target.value);
-    }
-
-    return(
+    return (
         <form onSubmit={handleSubmit} className="inputForm">
             <textarea
-                className="textarea"
+                className="textArea"
                 value={message}
-                onChange={handleChange}
+                onChange={(e) => setMessage(e.target.value)}
                 placeholder="여기에 질문을 입력하세요. 예: '회원가입 프로세스의 플로우차트를 생성해줘'"
-                rows={5}
+                disabled={isLoading}
+                rows = {5}
             />
-            <button 
-                type="submit"
-                className="submitButton"
-                disabled={isLoading || !message.trim()}
-            >
-                질문하기
+            <button type="submit" className="submitButton" disabled={isLoading || !message.trim()}>
+                {isLoading ? '처리 중...' : '질문하기'}
             </button>
         </form>
     );
-}
+};

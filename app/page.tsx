@@ -1,11 +1,7 @@
 'use client';
-
-import ChatHistory from "@/components/ChatHistory";
-import ChatInput from "@/components/ChatInput";
-import EmptyState from "@/components/EmptyState";
-import ResultTabs from "@/components/ResultTabs";
 import { ChatMessage } from "@/models/chat";
 import { FlowchartModel } from "@/models/flowchart";
+import messageProcessingService from "@/services/MessageProcessingService";
 import { useState } from "react";
 
 export default function Home() {
@@ -72,25 +68,40 @@ export default function Home() {
     <div className="container">
       <main className="main">
         <div className="chatContainer">
-          <h1 className="title">AI에게 질문하기</h1>
+          {/* 헤더 */}
+          <Header
+            showChatHistory={showChatHistory}
+            toggleChatHistory={toggleChatHistory}
+            clearChatHistory={clearChatHistory}
+            hasChatHistory={chatHistory.length > 0}
+          />
 
+          {/* 대화 내역 */}
+          <ChatHistory
+            messages={chatHistory}
+            showChatHistory={showChatHistory}
+          />
+
+          {/* 채팅 입력 */}
           <ChatInput
             onSendMessage={handleSendMessage}
             isLoading={isLoading}
           />
-          <ResultTabs 
+
+          {/* 탭 선택기 */}
+          <TabSelector
             activeTab={activeTab}
-            onTabChange={setActiveTab}
+            onTabChange={handleTabChange}
           />
+
+          {/* 결과 표시 영역 */}
           <div className="resultContainer">
-            {chatHistory.length === 0 ? (
-              <EmptyState />
-            ) : (
-              <ChatHistory
-                messages={chatHistory}
-                isLoading={isLoading}
-              />
-            )}
+            <FlowchartResult
+              flowchartData={flowchartData}
+              activeTab={activeTab}
+              error={error}
+              isLoading={isLoading}
+            />
           </div>
         </div>
       </main>
