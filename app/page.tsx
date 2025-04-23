@@ -37,6 +37,7 @@ export default function Home() {
         const parsedResponse = JSON.parse(normalizeResponse);
         if (parsedResponse && parsedResponse.normalizedUserMessage){
           normalizedMessage = parsedResponse.normalizedUserMessage;
+          console.log('정규화된 메시지:', normalizedMessage);
           if(parsedResponse.thought){
             console.log('정규화 thought:', parsedResponse.thought);
           }
