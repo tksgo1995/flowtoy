@@ -63,6 +63,9 @@ export class ChatService{
     async chat(userMessage: string, assistantMessage: string): Promise<string>{
         try{
             const response = await this.sendMessage(userMessage, assistantMessage);
+            const token = response.responseData.token;
+            console.log('Token:', token);
+
             return response.responseData.userMessage;
         }catch(error){
             console.error('Error in chat:', error);

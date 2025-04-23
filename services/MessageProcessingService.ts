@@ -150,7 +150,6 @@ Do not include any explanation or additional text outside the JSON structure.
             ##User
             ${message}
             `;
-
             let response = await chatService.chat(userMessage, assistantMessage);
             response = response.replace("```json", "").replace("```", "").trim(); // JSON 포맷팅
             return JSON.parse(response) as FlowchartModel;
