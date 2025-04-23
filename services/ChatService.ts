@@ -24,6 +24,7 @@ export class ChatService{
     private readonly apiUrl: string;
 
     constructor(apiUrl?: string) {
+        // this.apiUrl = apiUrl || 'https://localhost:7141/api/test/Call';
         this.apiUrl = apiUrl || 'https://pumex-cyd2abaybge8bkfw.koreacentral-01.azurewebsites.net/api/test/Call';
     }
 
@@ -61,7 +62,7 @@ export class ChatService{
 
     async chat(userMessage: string, assistantMessage: string): Promise<string>{
         try{
-            const response = await this.sendMessage(userMessage);
+            const response = await this.sendMessage(userMessage, assistantMessage);
             return response.responseData.userMessage;
         }catch(error){
             console.error('Error in chat:', error);

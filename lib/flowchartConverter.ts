@@ -79,7 +79,7 @@ export class FlowchartConverter {
   // JSON -> Mermaid 변환
   static jsonToMermaid(jsonData: string): string {
     const model: FlowchartModel = JSON.parse(jsonData);
-    const lines: string[] = ['graph TD'];
+    const lines: string[] = ['flowchart TD']; // graph TD에서 flowchart TD로 변경
     
     // 노드 정의
     model.nodes.forEach(node => {
@@ -98,9 +98,9 @@ export class FlowchartConverter {
     model.edges.forEach(edge => {
       let style = '-->';
       if (edge.style === 'dotted') {
-        style = '-.->'; 
+        style = '-.->'; // -..-> 대신 -.-> 사용
       } else if (edge.style === 'dashed') {
-        style = '--.->';
+        style = '--->';
       }
       
       if (!edge.label) {
@@ -114,33 +114,48 @@ export class FlowchartConverter {
   }
 
   // JSON -> HTML Table 변환
+  // JSON -> HTML Table 변환
   static jsonToHtmlTable(jsonData: string): string {
     const model: FlowchartModel = JSON.parse(jsonData);
-    let html = '';
+    let html = '<div class="flowchart-tables">';
     
     // 노드 테이블
-    html += '<h3>Nodes</h3>';
-    html += '<table border="1" class="min-w-full divide-y divide-gray-200">';
-    html += '<thead class="bg-gray-50"><tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Text</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shape</th></tr></thead>';
-    html += '<tbody class="bg-white divide-y divide-gray-200">';
+    html += '<div class="table-section">';
+    html += '<h2>Nodes</h2>';
+    html += '<table class="flowchart-table">';
+    html += '<thead><tr><th>ID</th><th>Text</th><th>Shape</th></tr></thead>';
+    html += '<tbody>';
     
     model.nodes.forEach(node => {
-      html += `<tr><td class="px-6 py-4 whitespace-nowrap">${node.id}</td><td class="px-6 py-4 whitespace-nowrap">${node.text}</td><td class="px-6 py-4 whitespace-nowrap">${node.shape}</td></tr>`;
+      html += `<tr>
+        <td>${node.id}</td>
+        <td>${node.text}</td>
+        <td><span class="shape-badge ${node.shape}">${node.shape}</span></td>
+      </tr>`;
     });
     
     html += '</tbody></table>';
+    html += '</div>';
     
     // 엣지 테이블
-    html += '<h3 class="mt-6">Edges</h3>';
-    html += '<table border="1" class="min-w-full divide-y divide-gray-200">';
-    html += '<thead class="bg-gray-50"><tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">From</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">To</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Label</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Style</th></tr></thead>';
-    html += '<tbody class="bg-white divide-y divide-gray-200">';
+    html += '<div class="table-section">';
+    html += '<h2>Edges</h2>';
+    html += '<table class="flowchart-table">';
+    html += '<thead><tr><th>From</th><th>To</th><th>Label</th><th>Style</th></tr></thead>';
+    html += '<tbody>';
     
     model.edges.forEach(edge => {
-      html += `<tr><td class="px-6 py-4 whitespace-nowrap">${edge.fromId}</td><td class="px-6 py-4 whitespace-nowrap">${edge.toId}</td><td class="px-6 py-4 whitespace-nowrap">${edge.label}</td><td class="px-6 py-4 whitespace-nowrap">${edge.style}</td></tr>`;
+      html += `<tr>
+        <td>${edge.fromId}</td>
+        <td>${edge.toId}</td>
+        <td>${edge.label}</td>
+        <td><span class="style-badge ${edge.style}">${edge.style}</span></td>
+      </tr>`;
     });
     
     html += '</tbody></table>';
+    html += '</div>';
+    html += '</div>';
     
     return html;
   }

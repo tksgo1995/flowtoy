@@ -47,6 +47,73 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ messages, showChatHistory }) 
           );
         })
       )}
+
+      <style jsx>{`
+        .chatHistoryContainer {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .emptyChatHistory {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+  }
+  
+  .chatMessage {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 80%;
+  }
+  
+  .userMessage {
+    background-color: #e3f2fd;
+    margin-left: auto;
+  }
+  
+  .assistantMessage {
+    background-color: #e8f5e9;
+    margin-right: auto;
+  }
+  
+  .systemMessage {
+    background-color: #fff3cd;
+    color: #856404;
+    margin: 10px auto;
+    font-style: italic;
+    max-width: 90%;
+  }
+  
+  .botMessage {
+    background-color: #f1f1f1;
+    margin-right: auto;
+  }
+  
+  .defaultMessage {
+    background-color: #f5f5f5;
+    margin: 0 auto;
+  }
+  
+  .chatMessageHeader {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .chatMessageContent {
+    word-break: break-word;
+  }
+      `}</style>
     </div>
   );
 };
+
+export default ChatHistory;
